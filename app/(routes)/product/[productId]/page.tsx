@@ -5,13 +5,11 @@ import ProductList from "@/components/ui/product-list";
 import Gallery from "@/components/gallery";
 import Info from "@/components/ui/info";
 
-interface ProductPageProps {
-    params: {
-        productId: string;
-    };
-}
-
-const ProductPage = async ({ params }: ProductPageProps) => {
+export default async function ProductPage({
+                                              params,
+                                          }: {
+    params: Promise<{ productId: string }>;
+}) {
     const { productId } = await params;
 
     const product = await getProduct(productId);
@@ -20,7 +18,9 @@ const ProductPage = async ({ params }: ProductPageProps) => {
         return (
             <Container>
                 <div className="px-4 py-20 text-center">
-                    <h1 className="text-2xl font-bold text-gray-900">Produk tidak ditemukan</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">
+                        Produk tidak ditemukan
+                    </h1>
                 </div>
             </Container>
         );
@@ -51,6 +51,4 @@ const ProductPage = async ({ params }: ProductPageProps) => {
             </Container>
         </div>
     );
-};
-
-export default ProductPage;
+}
