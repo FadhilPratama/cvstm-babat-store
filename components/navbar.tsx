@@ -1,6 +1,7 @@
 import Container from "@/components/ui/container";
 import Link from "next/link";
 import MainNav from "@/components/ui/main-nav";
+import SearchBar from "@/components/ui/search-bar";
 import getCategories from "@/actions/get-categories";
 
 export const revalidate = 0
@@ -11,12 +12,16 @@ const Navbar = async () => {
     return (
         <div className="border-b">
             <Container>
-                <div className="relative px-4 sm:px-6 lg:px-8 flex
-                h-16 items-center">
-                <Link href="/" className="ml-4 flex lg:ml-8 gap-x-2">
-                    <p className="font-bold text-xl">Toko</p>
-                </Link>
+                <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center">
+                    <Link href="/" className="ml-4 flex lg:ml-8 gap-x-2">
+                        <p className="font-bold text-xl">Toko</p>
+                    </Link>
                     <MainNav data={categories} />
+
+                    {/* Search Bar - positioned on the right */}
+                    <div className="ml-auto flex items-center">
+                        <SearchBar />
+                    </div>
                 </div>
             </Container>
         </div>

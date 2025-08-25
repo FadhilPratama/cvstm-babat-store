@@ -3,27 +3,34 @@ import Image from "next/image";
 
 interface BannerProps {
     data: BannerType;
+    className?: string;
 }
 
-const Banner: React.FC<BannerProps> = ({ data }) => {
-    return (
-        <div className="p-4 sm:p-6 lg:p-8 rounded-xl overflow-hidden">
-            <div className="rounded-xl relative min-h-[300px] md:min-h-[400px] lg:min-h-[500px] overflow-hidden">
-                {/* Background Image */}
-                <Image
-                    src={data?.imageUrl}
-                    alt="Banner"
-                    fill
-                    className="object-contain"
-                    priority
-                />
+const Banner: React.FC<BannerProps> = ({ data, className = "" }) => {
+    // Fallback jika data tidak ada
+    if (!data) {
+        return null;
+    }
 
-                {/* Content Overlay */}
-                <div className="absolute inset-0 flex justify-center items-center text-center gap-y-8 py-12 px-4 z-10">
-                    <div className="font-bold text-3xl sm:text-5xl lg:text-6xl sm:max-w-xl md:max-w-2xl text-white drop-shadow-lg">
-                        {data?.label}
-                    </div>
-                </div>
+    return (
+        <div className={`p-4 sm:p-6 lg:p-8 rounded-xl overflow-hidden ${className}`}>
+            <div className="rounded-xl relative min-h-[300px] md:min-h-[400px] lg:min-h-[500px] overflow-hidden bg-gradient-to-br from-gray-50 via-green-50 to-gray-100">
+
+                {/* Background Image */}
+                {data.imageUrl && (
+                    <Image
+                        src={data.imageUrl}
+                        alt={data.label || "Banner"}
+                        fill
+                        className="object-contain"
+                        priority
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                    />
+                )}
+
+                {/* Decorative elements untuk visual yang lebih menarik */}
+                <div className="absolute top-4 right-4 w-20 h-20 bg-white/10 rounded-full blur-xl" />
+                <div className="absolute bottom-4 left-4 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
             </div>
         </div>
     );
