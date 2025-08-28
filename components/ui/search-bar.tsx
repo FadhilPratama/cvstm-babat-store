@@ -22,11 +22,12 @@ const SearchBar = () => {
             if (searchTerm.trim().length > 2) {
                 startTransition(async () => {
                     try {
+
                         const results = await getSearchProducts(searchTerm.trim());
                         setProducts(results);
                         setIsOpen(true);
                     } catch (error) {
-                        console.error('Search failed:', error);
+                        console.error("Search failed:", error);
                         setProducts([]);
                     }
                 });
@@ -38,6 +39,7 @@ const SearchBar = () => {
 
         return () => clearTimeout(delayedSearch);
     }, [searchTerm]);
+
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -72,14 +74,6 @@ const SearchBar = () => {
         setSearchTerm("");
         setProducts([]);
         setIsOpen(false);
-    };
-
-    const formatPrice = (price: number) => {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-        }).format(price);
     };
 
     return (
@@ -160,22 +154,10 @@ const SearchBar = () => {
                                             <p className="text-xs text-gray-500">
                                                 {product.category?.name}
                                             </p>
-                                            <p className="text-sm font-semibold text-blue-600">
-                                                {formatPrice(product.price)}
-                                            </p>
                                         </div>
                                     </div>
                                 ))}
 
-                                {/* View All Results Link */}
-                                <div
-                                    onClick={handleSearch}
-                                    className="p-3 text-center border-t border-gray-200 bg-gray-50 hover:bg-gray-100 cursor-pointer"
-                                >
-                                    <span className="text-sm text-blue-600 font-medium">
-                                        Lihat semua hasil untuk "{searchTerm}"
-                                    </span>
-                                </div>
                             </>
                         )}
                     </div>
@@ -260,21 +242,10 @@ const SearchBar = () => {
                                             <p className="text-sm text-gray-500 mb-1">
                                                 {product.category?.name}
                                             </p>
-                                            <p className="font-semibold text-blue-600">
-                                                {formatPrice(product.price)}
-                                            </p>
                                         </div>
                                     </div>
                                 ))}
 
-                                <div
-                                    onClick={handleSearch}
-                                    className="p-4 text-center bg-gray-50 hover:bg-gray-100 cursor-pointer"
-                                >
-                                    <span className="text-blue-600 font-medium">
-                                        Lihat semua hasil untuk "{searchTerm}"
-                                    </span>
-                                </div>
                             </>
                         )}
                     </div>

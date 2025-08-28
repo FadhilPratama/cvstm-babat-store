@@ -1,4 +1,4 @@
-import {Category, Product} from "@/type";
+import {Product} from "@/type";
 
 import qs from "query-string"
 
