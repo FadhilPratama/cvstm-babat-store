@@ -21,20 +21,22 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
+                                       children,
+                                   }: Readonly<{
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-      <ModalProvider />
+    return (
+        <html lang="en">
+        <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+        <ModalProvider />
         <Navbar />
-        {children}
-      <Footer />
-      </body>
-    </html>
-  );
+        <main className="pt-16">   {/* kasih padding setinggi navbar */}
+            {children}
+        </main>
+        <Footer />
+        </body>
+        </html>
+    );
 }
