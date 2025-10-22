@@ -2,8 +2,7 @@
 
 import { Image as ImageType } from "@/type";
 import Image from "next/image";
-import { TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-import GalleryTab from "@/components/gallery/gallery-tab";
+import { TabGroup, TabPanel, TabPanels } from "@headlessui/react";
 
 interface GalleryProps {
     images: ImageType[];
@@ -13,29 +12,23 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
     return (
         <TabGroup as="div" className="flex flex-col">
             {/* Main Image Panel */}
-            <TabPanels className="aspect-square w-full mb-6">
+            <TabPanels className="relative aspect-square w-full mb-6 bg-gray-50 rounded-lg overflow-hidden">
                 {images.map((image) => (
-                    <TabPanel key={image.id}>
-                        <div className="aspect-square relative h-full w-full sm:rounded-lg overflow-hidden">
+                    <TabPanel key={image.id} className="h-full w-full">
+                        <div className="relative h-full w-full flex items-center justify-center p-8">
                             <Image
                                 src={image.url}
                                 alt="Product image"
                                 fill
-                                className="object-cover object-center"
+                                className="object-contain"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                priority
                             />
                         </div>
                     </TabPanel>
                 ))}
             </TabPanels>
 
-            {/* Thumbnail Gallery */}
-            <div className="mx-auto w-full max-w-2xl sm:block lg:max-w-none">
-                <TabList className="grid grid-cols-4 gap-6">
-                    {images.map((image) => (
-                        <GalleryTab key={image.id} image={image} />
-                    ))}
-                </TabList>
-            </div>
         </TabGroup>
     );
 };

@@ -13,10 +13,22 @@ export interface Category {
 export interface Product {
     id: string;
     name: string;
-    price: string;
     category: Category;
     isFeatured: boolean;
-    images: Image[]
+    isArchived: boolean;
+    images: Image[];
+
+    // Product detail fields
+    description?: string | null;
+    activeIngredients?: string | null;
+    netWeight?: string | null;
+    manufacturer?: string | null;
+    shelfLife?: string | null;
+    packaging?: string | null;
+
+    // Timestamps
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface Image {

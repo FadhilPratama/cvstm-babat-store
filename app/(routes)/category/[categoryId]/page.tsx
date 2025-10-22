@@ -10,7 +10,6 @@ interface CategoryPageProps {
 }
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {
-    // ✅ Await dulu params
     const { categoryId } = await params;
 
     const products = await getProducts({
@@ -23,8 +22,8 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
         <div className="bg-white">
             <Container>
                 <Banner data={category.banner} />
-                <div className="px-4 sm:px-6 lg:px-8 pb-24">
-                    <div className="mt-6 lg:col-span-4 lg:mt-0">
+                <div className="px-4 sm:px-6 lg:px-8 pb-24 mt-6">
+                    <div className="lg:col-span-4">
                         {products.length === 0 && <NoResults />}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {products.map((item) => (
