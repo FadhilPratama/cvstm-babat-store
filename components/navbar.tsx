@@ -10,8 +10,6 @@ export const revalidate = 0
 
 const Navbar = async () => {
     const categories = await getCategories();
-
-    // Ambil banner dengan ID yang sama untuk logo
     const logoBanner = await getBanner("bf499495-4918-41b6-8476-711b75b512c6");
 
     return (
@@ -19,7 +17,7 @@ const Navbar = async () => {
             <Container>
                 <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center">
                     <Link href="/" className="ml-4 flex lg:ml-8 gap-x-2 items-center">
-                        {logoBanner && logoBanner.imageUrl ? (
+                        {logoBanner?.imageUrl ? (
                             <div className="relative h-15 w-45">
                                 <Image
                                     src={logoBanner.imageUrl}
@@ -30,13 +28,10 @@ const Navbar = async () => {
                                 />
                             </div>
                         ) : (
-                            // Fallback jika banner logo tidak ada
                             <p className="font-bold text-xl">Toko</p>
                         )}
                     </Link>
                     <MainNav data={categories} />
-
-                    {/* Search Bar - positioned on the right */}
                     <div className="ml-auto flex items-center">
                         <SearchBar />
                     </div>
@@ -44,7 +39,6 @@ const Navbar = async () => {
             </Container>
         </div>
     );
-
 }
 
 export default Navbar;

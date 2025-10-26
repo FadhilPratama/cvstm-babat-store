@@ -12,12 +12,12 @@ const HomePage = async () => {
 
     return (
         <Container>
-        <div className="space-y-10 pb-10">
-            <Banner data={banner} />
-            <div>
-                <ProductList title="Produk Unggulan" items={products} />
+            <div className="space-y-10 pb-10">
+                {banner && <Banner data={banner} />}
+                <div>
+                    <ProductList title="Produk Unggulan" items={products} />
+                </div>
             </div>
-        </div>
         </Container>
     );
 }
