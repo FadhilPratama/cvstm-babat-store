@@ -12,11 +12,22 @@ export default async function getSearchProducts(query?: string): Promise<Product
             return [];
         }
 
-        // Fetch semua produk dari API (karena API tidak support server-side filtering)
         const baseUrl = process.env.PUBLIC_API_URL;
-        const productsUrl = `${baseUrl}/products`;
 
-        console.log("🌐 Fetching all products from:", productsUrl);
+        // Validasi environment variable
+        if (!baseUrl) {
+            console.error("❌ PUBLIC_API_URL is not defined in environment variables");
+            return [];
+        }
+
+        // Encode query untuk URL safety
+        const encodedQuery = encodeURIComponent(query.trim());
+
+        // Gunakan parameter 'global=true' untuk fetch tanpa storeId
+        // Dan parameter 'q' untuk search query
+        const productsUrl = `${baseUrl}/products?global=true&q=${encodedQuery}`;
+
+        console.log("🌐 Fetching products from:", productsUrl);
 
         const res = await fetch(productsUrl, {
             method: "GET",
@@ -40,28 +51,23 @@ export default async function getSearchProducts(query?: string): Promise<Product
             return [];
         }
 
-        const allProducts = await res.json();
-        console.log("✅ All products fetched:", allProducts.length, "products");
+        const text = await res.text();
+        console.log("📄 Response text length:", text.length);
 
-        // Validasi bahwa data adalah array
-        if (!Array.isArray(allProducts)) {
-            console.error("❌ API response is not an array:", typeof allProducts);
+        // Parse JSON dengan error handling
+        let products: Product[];
+        try {
+            const data = JSON.parse(text);
+            products = Array.isArray(data) ? data : [];
+        } catch (jsonError) {
+            console.error("❌ JSON parse error:", jsonError);
+            console.error("Response text:", text.substring(0, 200)); // Log first 200 chars
             return [];
         }
 
-        // Client-side filtering berdasarkan query
-        const searchQuery = query.trim().toLowerCase();
-        const filteredProducts = allProducts.filter((product: Product) => {
-            // Search berdasarkan nama produk dan kategori
-            const nameMatch = product.name?.toLowerCase().includes(searchQuery);
-            const categoryMatch = product.category?.name?.toLowerCase().includes(searchQuery);
+        console.log(`✅ Search results: ${products.length} products for "${query}"`);
 
-            return nameMatch || categoryMatch;
-        });
-
-        console.log(`🔍 Filtered products: ${filteredProducts.length} results for "${query}"`);
-
-        return filteredProducts as Product[];
+        return products;
 
     } catch (error) {
         console.error("💥 Error in getSearchProducts:", error);
@@ -72,6 +78,11 @@ export default async function getSearchProducts(query?: string): Promise<Product
                 message: error.message,
                 stack: error.stack
             });
+
+            // Handle timeout error specifically
+            if (error.name === 'AbortError' || error.name === 'TimeoutError') {
+                console.error("⏱️ Request timeout - API took too long to respond");
+            }
         }
 
         return [];

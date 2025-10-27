@@ -10,11 +10,6 @@ interface Query {
 
 const getProducts = async (query: Query): Promise<Product[]> => {
     try {
-        // Debug log
-        console.log("PUBLIC_API_URL:", process.env.PUBLIC_API_URL);
-        console.log("Full URL:", URL);
-
-        // Build query string
         const url = qs.stringifyUrl({
             url: URL,
             query: {
@@ -23,32 +18,21 @@ const getProducts = async (query: Query): Promise<Product[]> => {
             },
         });
 
-        console.log("Final fetch URL:", url);
-
-        // Fetch data
         const res = await fetch(url, { cache: "no-store" });
 
-        console.log("Response status:", res.status);
-        console.log("Response headers:", Object.fromEntries(res.headers.entries()));
-
-        // Coba parse JSON secara aman
-        const text = await res.text();
-        console.log("Response text:", text);
-
         if (!res.ok) {
-            console.error(`[GET_PRODUCTS_ERROR] HTTP ${res.status}: ${text}`);
             return [];
         }
+
+        const text = await res.text();
 
         try {
             const data = JSON.parse(text);
             return Array.isArray(data) ? data : [];
-        } catch (jsonErr) {
-            console.error("[GET_PRODUCTS_ERROR] JSON parse gagal:", jsonErr);
+        } catch {
             return [];
         }
-    } catch (error) {
-        console.error("[GET_PRODUCTS_ERROR]", error);
+    } catch {
         return [];
     }
 };

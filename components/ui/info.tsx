@@ -124,20 +124,6 @@ const Info: React.FC<InfoProps> = ({ data }) => {
                     </div>
                 </div>
 
-                {/* Debug Info (dev only) */}
-                {process.env.NODE_ENV === "development" && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                        <h4 className="font-semibold text-red-800 mb-2">Debug Info</h4>
-                        <div className="text-sm text-red-700 space-y-1">
-                            <div>Description: {displayValue(data.description)}</div>
-                            <div>Active Ingredients: {displayValue(data.activeIngredients)}</div>
-                            <div>Net Weight: {displayValue(data.netWeight)}</div>
-                            <div>Manufacturer: {displayValue(data.manufacturer)}</div>
-                            <div>Shelf Life: {displayValue(data.shelfLife)}</div>
-                            <div>Packaging: {displayValue(data.packaging)}</div>
-                        </div>
-                    </div>
-                )}
             </div>
 
             <hr className="border-gray-200" />
