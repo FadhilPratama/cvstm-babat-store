@@ -1,7 +1,7 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
-    darkMode: ["class"],
+    darkMode: "class", // ✅ FIXED: ganti dari ["class"] ke "class"
     content: [
         "./pages/**/*.{ts,tsx}",
         "./components/**/*.{ts,tsx}",
@@ -14,12 +14,12 @@ const config: Config = {
             },
             colors: {
                 primary: {
-                    DEFAULT: "#16a34a", // hijau utama (Tailwind green-600)
+                    DEFAULT: "#16a34a", // hijau utama
                     light: "#22c55e",   // hijau terang
                     dark: "#15803d",    // hijau tua
                 },
                 secondary: {
-                    DEFAULT: "#f3f4f6", // abu lembut untuk background
+                    DEFAULT: "#f3f4f6", // abu lembut
                     dark: "#e5e7eb",
                 },
             },
@@ -33,6 +33,6 @@ const config: Config = {
         },
     },
     plugins: [],
-}
+};
 
-export default config
+export default config;
