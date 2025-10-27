@@ -1,24 +1,32 @@
-import Container from "@/components/ui/container";
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import Container from "@/components/ui/container";
 import MainNav from "@/components/ui/main-nav";
 import SearchBar from "@/components/ui/search-bar";
-import getCategories from "@/actions/get-categories";
-import getBanner from "@/actions/get-banner";
 
-export const revalidate = 0
+interface NavbarProps {
+    categories: any[];
+    logoBanner: {
+        imageUrl?: string;
+        label?: string;
+    };
+}
 
-const Navbar = async () => {
-    const categories = await getCategories();
-    const logoBanner = await getBanner("bf499495-4918-41b6-8476-711b75b512c6");
+export default function Navbar({ categories, logoBanner }: NavbarProps) {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <div className="border-b fixed top-0 left-0 right-0 z-50 bg-white">
+        <div className="border-b fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
             <Container>
-                <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center">
-                    <Link href="/" className="ml-4 flex lg:ml-8 gap-x-2 items-center">
+                <div className="flex items-center justify-between h-16">
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center gap-2">
                         {logoBanner?.imageUrl ? (
-                            <div className="relative h-15 w-45">
+                            <div className="relative w-28 h-10 sm:w-32">
                                 <Image
                                     src={logoBanner.imageUrl}
                                     alt={logoBanner.label || "Logo"}
@@ -28,17 +36,43 @@ const Navbar = async () => {
                                 />
                             </div>
                         ) : (
-                            <p className="font-bold text-xl">Toko</p>
+                            <p className="font-bold text-lg">Toko</p>
                         )}
                     </Link>
-                    <MainNav data={categories} />
-                    <div className="ml-auto flex items-center">
-                        <SearchBar />
+
+                    {/* Menu desktop */}
+                    <div className="hidden md:flex items-center gap-6">
+                        <MainNav data={categories} />
+                    </div>
+
+                    {/* Search + Hamburger */}
+                    <div className="flex items-center gap-3">
+                        <div className="hidden md:block">
+                            <SearchBar />
+                        </div>
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="md:hidden p-2 rounded-md hover:bg-gray-100 transition"
+                        >
+                            {mobileMenuOpen ? (
+                                <X className="h-6 w-6 text-gray-800" />
+                            ) : (
+                                <Menu className="h-6 w-6 text-gray-800" />
+                            )}
+                        </button>
                     </div>
                 </div>
+
+                {/* Menu mobile */}
+                {mobileMenuOpen && (
+                    <div className="md:hidden mt-2 space-y-2 border-t border-gray-200 pt-2 pb-3">
+                        <MainNav data={categories} />
+                        <div className="px-2">
+                            <SearchBar />
+                        </div>
+                    </div>
+                )}
             </Container>
         </div>
     );
 }
-
-export default Navbar;
