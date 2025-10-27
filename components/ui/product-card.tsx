@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { Product } from "@/type";
 import Image from "next/image";
@@ -28,10 +28,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
     return (
         <div
             onClick={handleClick}
-            className="bg-white group cursor-pointer rounded-xl border border-gray-200 p-4 space-y-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+            className="
+        bg-white
+        group
+        cursor-pointer
+        rounded-2xl
+        border
+        border-gray-100
+        overflow-hidden
+        shadow-sm
+        hover:shadow-xl
+        hover:-translate-y-1
+        transition-all
+        duration-300
+      "
         >
-            {/* Image Container with Action Overlay */}
-            <div className="aspect-square rounded-xl bg-gray-50 relative overflow-hidden">
+            {/* Gambar Produk */}
+            <div className="relative w-full aspect-[4/5] bg-gray-50">
                 {data?.images?.[0]?.url ? (
                     <Image
                         src={data.images[0].url}
@@ -46,25 +59,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
                     </div>
                 )}
 
-                {/* Action Button Overlay */}
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute inset-0 bg-black/10 flex items-center justify-center">
-                    <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <IconButton
-                            onClick={onPreview}
-                            icon={<Expand size={18} className="text-white" />}
-                            className="bg-black/70 hover:bg-black/90 text-white backdrop-blur-sm"
-                        />
-                    </div>
+                {/* Tombol Preview (muncul saat hover) */}
+                <div className="
+          absolute inset-0
+          flex items-center justify-center
+          bg-black/10
+          opacity-0 group-hover:opacity-100
+          transition-opacity duration-300
+        ">
+                    <IconButton
+                        onClick={onPreview}
+                        icon={<Expand size={18} className="text-white" />}
+                        className="bg-black/70 hover:bg-black/90 text-white backdrop-blur-sm"
+                    />
                 </div>
             </div>
 
-            {/* Product Information */}
-            <div className="space-y-2">
-                <h3 className="font-semibold text-lg text-gray-900 line-clamp-2 leading-tight">
+            {/* Info Produk */}
+            <div className="px-4 py-3 space-y-1 text-center">
+                <h3 className="font-semibold text-gray-900 text-base sm:text-lg line-clamp-2 leading-snug">
                     {data.name}
                 </h3>
                 {data.category?.name && (
-                    <p className="text-sm text-gray-500 uppercase tracking-wide">
+                    <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide">
                         {data.category.name}
                     </p>
                 )}
