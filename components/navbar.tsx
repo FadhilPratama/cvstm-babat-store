@@ -7,9 +7,10 @@ import { Menu, X } from "lucide-react";
 import Container from "@/components/ui/container";
 import MainNav from "@/components/ui/main-nav";
 import SearchBar from "@/components/ui/search-bar";
+import { Category } from "@/type"; // gunakan tipe Category yang sudah kamu punya
 
 interface NavbarProps {
-    categories: any[];
+    categories: Category[];
     logoBanner: {
         imageUrl?: string;
         label?: string;
